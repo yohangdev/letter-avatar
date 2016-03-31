@@ -113,7 +113,7 @@ class LetterAvatar
      */
     public function generate()
     {
-        $words = explode(' ', $this->name);
+        $words = $this->break_words($this->name);
 
         $number_of_word = 1;
         foreach ($words as $word) {
@@ -162,6 +162,17 @@ class LetterAvatar
     public function __toString()
     {
         return (string) $this->generate()->encode('data-url');
+    }
+
+    public function break_words($name) {
+        $temp_word_arr = explode(' ', $name);
+        $final_word_arr = array();
+        foreach ($temp_word_arr as $key => $word) {
+            if( $word != "" && $word != ",") {
+                $final_word_arr[] = $word;
+            }
+        }
+        return $final_word_arr;
     }
 
 }
