@@ -134,7 +134,9 @@ class LetterAvatar
         $char_index  = ord($this->name_initials[0]) - 64;
         $color_index = $char_index % 20;
         $color       = $colors[$color_index];
-
+        if (!$color) {
+            $color   = $colors[rand(0, count($colors)-1)];
+        }
 
         if ($this->shape == 'circle') {
             $canvas = $this->image_manager->canvas(480, 480);
