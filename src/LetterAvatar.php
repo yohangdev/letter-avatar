@@ -116,6 +116,7 @@ class LetterAvatar
         $words = $this->break_words($this->name);
 
         $number_of_word = 1;
+        $this->name_initials = '';
         foreach ($words as $word) {
 
             if ($number_of_word > 2)
