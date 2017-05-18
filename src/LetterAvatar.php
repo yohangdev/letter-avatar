@@ -126,17 +126,7 @@ class LetterAvatar
             $number_of_word++;
         }
 
-        $colors = [
-            "#1abc9c", "#2ecc71", "#3498db", "#9b59b6", "#34495e", "#16a085", "#27ae60", "#2980b9", "#8e44ad", "#2c3e50",
-            "#f1c40f", "#e67e22", "#e74c3c", "#ecf0f1", "#95a5a6", "#f39c12", "#d35400", "#c0392b", "#bdc3c7", "#7f8c8d",
-        ];
-
-        $char_index  = ord($this->name_initials[0]) - 64;
-        $color_index = $char_index % 20;
-        $color       = $colors[$color_index];
-        if (!$color) {
-            $color   = $colors[rand(0, count($colors)-1)];
-        }
+        $color = $this->stringToColor($this->name);
 
         if ($this->shape == 'circle') {
             $canvas = $this->image_manager->canvas(480, 480);
@@ -177,4 +167,17 @@ class LetterAvatar
         return $final_word_arr;
     }
 
+    protected function stringToColor($string)
+    {
+        // random color
+        $rgb = substr(dechex(crc32($string)), 0, 6);
+        // make it darker
+        $darker = 2;
+        list($R16, $G16, $B16) = str_split($rgb, 2);
+        $R = sprintf("%02X", floor(hexdec($R16) / $darker));
+        $G = sprintf("%02X", floor(hexdec($G16) / $darker));
+        $B = sprintf("%02X", floor(hexdec($B16) / $darker));
+        return '#' . $R . $G . $B;
+    }
+    
 }
