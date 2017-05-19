@@ -152,6 +152,15 @@ class LetterAvatar
         return $canvas->resize($this->size, $this->size);
     }
 
+    public function saveAs($path, $mimetype = 'image/png', $quality = 90)
+    {
+        if(empty($path) || empty($mimetype) || $mimetype != "image/png" && $mimetype != 'image/jpeg'){
+            return false;
+        }
+
+        return @file_put_contents($path, $this->generate()->encode($mimetype, $quality));
+    }
+
     public function __toString()
     {
         return (string) $this->generate()->encode('data-url');
