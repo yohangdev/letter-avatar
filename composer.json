@@ -1,5 +1,5 @@
 {
-    "name": "ridaamirini/letter-avatar",
+    "name": "yohang88/letter-avatar",
     "description": "Generate user avatar using name initials letter.",
     "keywords": [
         "letter avatar",
@@ -14,12 +14,6 @@
             "email": "yohang88@gmail.com",
             "homepage": "https://yohang.net",
             "role": "Developer"
-        }
-    ],
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/ridaamirini/letter-avatar"
         }
     ],
     "require": {
