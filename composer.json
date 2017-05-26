@@ -1,12 +1,12 @@
 {
-    "name": "ridaamirini/letter-avatar",
+    "name": "yohang88/letter-avatar",
     "description": "Generate user avatar using name initials letter.",
     "keywords": [
         "letter avatar",
         "avatar",
         "profile picture"
     ],
-    "homepage": "https://github.com/ridaamirini/letter-avatar",
+    "homepage": "https://github.com/yohang88/letter-avatar",
     "license": "MIT",
     "authors": [
         {
