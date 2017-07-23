@@ -18,6 +18,7 @@
     ],
     "require": {
         "php" : ">=5.5.0",
+		"ext-mbstring" : "*",
         "intervention/image": "^2.3"
     },
     "require-dev": {
