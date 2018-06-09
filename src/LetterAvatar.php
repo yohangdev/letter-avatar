@@ -35,7 +35,7 @@ class LetterAvatar
     protected $image_manager;
 
 
-    public function __construct($name, $shape = 'circle', $size = '48')
+    public function __construct(string $name, string $shape = 'circle', int $size = 48)
     {
         $this->setName($name);
         $this->setImageManager(new ImageManager());
@@ -46,7 +46,7 @@ class LetterAvatar
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -54,7 +54,7 @@ class LetterAvatar
     /**
      * @param string $name
      */
-    public function setName($name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
@@ -62,7 +62,7 @@ class LetterAvatar
     /**
      * @return ImageManager
      */
-    public function getImageManager()
+    public function getImageManager(): ImageManager
     {
         return $this->image_manager;
     }
@@ -70,7 +70,7 @@ class LetterAvatar
     /**
      * @param ImageManager $image_manager
      */
-    public function setImageManager(ImageManager $image_manager)
+    public function setImageManager(ImageManager $image_manager): void
     {
         $this->image_manager = $image_manager;
     }
@@ -78,7 +78,7 @@ class LetterAvatar
     /**
      * @return string
      */
-    public function getShape()
+    public function getShape(): String
     {
         return $this->shape;
     }
@@ -86,7 +86,7 @@ class LetterAvatar
     /**
      * @param string $shape
      */
-    public function setShape($shape)
+    public function setShape(string $shape): void
     {
         $this->shape = $shape;
     }
@@ -94,7 +94,7 @@ class LetterAvatar
     /**
      * @return int
      */
-    public function getSize()
+    public function getSize(): int
     {
         return $this->size;
     }
@@ -102,7 +102,7 @@ class LetterAvatar
     /**
      * @param int $size
      */
-    public function setSize($size)
+    public function setSize(int $size): void
     {
         $this->size = $size;
     }
@@ -111,7 +111,7 @@ class LetterAvatar
     /**
      * @return \Intervention\Image\Image
      */
-    public function generate()
+    public function generate(): \Intervention\Image\Image
     {
         $words = $this->break_words($this->name);
 
@@ -152,32 +152,33 @@ class LetterAvatar
         return $canvas->resize($this->size, $this->size);
     }
 
-    public function saveAs($path, $mimetype = 'image/png', $quality = 90)
+    public function saveAs($path, $mimetype = 'image/png', $quality = 90): bool
     {
-        if(empty($path) || empty($mimetype) || $mimetype != "image/png" && $mimetype != 'image/jpeg'){
+        if (empty($path) || empty($mimetype) || $mimetype != "image/png" && $mimetype != 'image/jpeg') {
             return false;
         }
 
-        return @file_put_contents($path, $this->generate()->encode($mimetype, $quality));
+        return \is_int(@file_put_contents($path, $this->generate()->encode($mimetype, $quality)));
     }
 
-    public function __toString()
+    public function __toString(): string
     {
-        return (string) $this->generate()->encode('data-url');
+        return (string)$this->generate()->encode('data-url');
     }
 
-    public function break_words($name) {
+    public function break_words(string $name): array
+    {
         $temp_word_arr = explode(' ', $name);
         $final_word_arr = array();
         foreach ($temp_word_arr as $key => $word) {
-            if( $word != "" && $word != ",") {
+            if ($word != "" && $word != ",") {
                 $final_word_arr[] = $word;
             }
         }
         return $final_word_arr;
     }
 
-    protected function stringToColor($string)
+    protected function stringToColor(string $string): string
     {
         // random color
         $rgb = substr(dechex(crc32($string)), 0, 6);
@@ -189,5 +190,5 @@ class LetterAvatar
         $B = sprintf("%02X", floor(hexdec($B16) / $darker));
         return '#' . $R . $G . $B;
     }
-    
+
 }

@@ -4,7 +4,7 @@ require_once './../vendor/autoload.php';
 use YoHang88\LetterAvatar\LetterAvatar;
 
 $avatar = new LetterAvatar('Max Mustermann', 'square', 64);
-
+$avatar->saveAs('./img.png')
 ?>
 
 <!doctype html>
