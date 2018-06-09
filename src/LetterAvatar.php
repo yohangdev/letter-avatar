@@ -114,19 +114,7 @@ class LetterAvatar
      */
     public function generate(): \Intervention\Image\Image
     {
-        $words = $this->break_name($this->name);
-
-        $number_of_word = 1;
-        $this->name_initials = '';
-        foreach ($words as $word) {
-
-            if ($number_of_word > 2)
-                break;
-
-            $this->name_initials .= mb_strtoupper(trim(mb_substr($word, 0, 1, 'UTF-8')));
-
-            $number_of_word++;
-        }
+        $this->name_initials = $this->getInitials($this->name);
 
         $color = $this->stringToColor($this->name);
 
@@ -151,6 +139,20 @@ class LetterAvatar
         });
 
         return $canvas->resize($this->size, $this->size);
+    }
+
+    private function getInitials(string $name): string
+    {
+        $nameParts = $this->break_name($name);
+        $secondLetter = $nameParts[1] ? $this->getFirstLetter($nameParts[1]) : '';
+
+        return $this->getFirstLetter($nameParts[0]) . $secondLetter;
+
+    }
+
+    private function getFirstLetter(string $word): string
+    {
+        return mb_strtoupper(trim(mb_substr($word, 0, 1, 'UTF-8')));
     }
 
     public function saveAs($path, $mimetype = 'image/png', $quality = 90): bool
@@ -180,7 +182,7 @@ class LetterAvatar
         $words = array_filter($words, function($word) {
             return $word!=='' && $word !== ',';
         });
-        return $words;
+        return array_values($words);
     }
 
     protected function stringToColor(string $string): string
