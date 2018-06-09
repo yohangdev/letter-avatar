@@ -3,6 +3,8 @@
 namespace YoHang88\LetterAvatar;
 
 use function foo\func;
+use Intervention\Image\Gd\Font;
+use Intervention\Image\Gd\Shapes\CircleShape;
 use Intervention\Image\ImageManager;
 
 class LetterAvatar
@@ -16,7 +18,7 @@ class LetterAvatar
     /**
      * @var string
      */
-    protected $name_initials;
+    protected $nameInitials;
 
 
     /**
@@ -33,7 +35,7 @@ class LetterAvatar
     /**
      * @var ImageManager
      */
-    protected $image_manager;
+    protected $imageManager;
 
 
     public function __construct(string $name, string $shape = 'circle', int $size = 48)
@@ -65,15 +67,15 @@ class LetterAvatar
      */
     public function getImageManager(): ImageManager
     {
-        return $this->image_manager;
+        return $this->imageManager;
     }
 
     /**
-     * @param ImageManager $image_manager
+     * @param ImageManager $imageManager
      */
-    public function setImageManager(ImageManager $image_manager): void
+    public function setImageManager(ImageManager $imageManager): void
     {
-        $this->image_manager = $image_manager;
+        $this->imageManager = $imageManager;
     }
 
     /**
@@ -114,26 +116,24 @@ class LetterAvatar
      */
     public function generate(): \Intervention\Image\Image
     {
-        $this->name_initials = $this->getInitials($this->name);
+        $isCircle = $this->shape === 'circle';
 
+        $this->nameInitials = $this->getInitials($this->name);
         $color = $this->stringToColor($this->name);
 
-        if ($this->shape == 'circle') {
-            $canvas = $this->image_manager->canvas(480, 480);
+        $canvas = $this->imageManager->canvas(480, 480, $isCircle ? null : $color);
 
-            $canvas->circle(480, 240, 240, function ($draw) use ($color) {
+        if ($isCircle) {
+            $canvas->circle(480, 240, 240, function (CircleShape $draw) use ($color) {
                 $draw->background($color);
             });
 
-        } else {
-
-            $canvas = $this->image_manager->canvas(480, 480, $color);
         }
 
-        $canvas->text($this->name_initials, 240, 240, function ($font) {
+        $canvas->text($this->nameInitials, 240, 240, function (Font $font) {
             $font->file(__DIR__ . '/fonts/arial-bold.ttf');
             $font->size(220);
-            $font->color('#ffffff');
+            $font->color('#fafafa');
             $font->valign('middle');
             $font->align('center');
         });
