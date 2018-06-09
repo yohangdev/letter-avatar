@@ -191,10 +191,10 @@ class LetterAvatar
         $rgb = substr(dechex(crc32($string)), 0, 6);
         // make it darker
         $darker = 2;
-        list($R16, $G16, $B16) = str_split($rgb, 2);
-        $R = sprintf("%02X", floor(hexdec($R16) / $darker));
-        $G = sprintf("%02X", floor(hexdec($G16) / $darker));
-        $B = sprintf("%02X", floor(hexdec($B16) / $darker));
+        [$R16, $G16, $B16] = str_split($rgb, 2);
+        $R = sprintf('%02X', floor(hexdec($R16) / $darker));
+        $G = sprintf('%02X', floor(hexdec($G16) / $darker));
+        $B = sprintf('%02X', floor(hexdec($B16) / $darker));
         return '#' . $R . $G . $B;
     }
 
