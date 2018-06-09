@@ -128,14 +128,13 @@ class LetterAvatar
     /**
      * @param string $name
      * @return string
-     * @throws InvalidNameException
      */
     private function getInitials(string $name): string
     {
         $nameParts = $this->break_name($name);
 
         if(!$nameParts) {
-            throw new InvalidNameException('Your name is invalid!');
+            return '';
         }
 
         $secondLetter = $nameParts[1] ? $this->getFirstLetter($nameParts[1]) : '';
