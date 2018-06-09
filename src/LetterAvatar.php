@@ -2,7 +2,6 @@
 
 namespace YoHang88\LetterAvatar;
 
-use function foo\func;
 use Intervention\Image\Gd\Font;
 use Intervention\Image\Gd\Shapes\CircleShape;
 use Intervention\Image\ImageManager;
@@ -10,34 +9,49 @@ use Intervention\Image\ImageManager;
 class LetterAvatar
 {
     /**
+     * Image Type PNG
+     */
+    public const MIME_TYPE_PNG = 'image/png';
+
+    /**
+     * Image Type JPEG
+     */
+    public const MIME_TYPE_JPEG = 'image/jpeg';
+
+    /**
      * @var string
      */
-    protected $name;
+    private $name;
 
 
     /**
      * @var string
      */
-    protected $nameInitials;
+    private $nameInitials;
 
 
     /**
      * @var string
      */
-    protected $shape;
+    private $shape;
 
 
     /**
      * @var int
      */
-    protected $size;
+    private $size;
 
     /**
      * @var ImageManager
      */
-    protected $imageManager;
+    private $imageManager;
 
-
+    /**
+     * LetterAvatar constructor.
+     * @param string $name
+     * @param string $shape
+     * @param int    $size
+     */
     public function __construct(string $name, string $shape = 'circle', int $size = 48)
     {
         $this->setName($name);
@@ -47,65 +61,35 @@ class LetterAvatar
     }
 
     /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
      * @param string $name
      */
-    public function setName(string $name): void
+    private function setName(string $name): void
     {
         $this->name = $name;
     }
 
-    /**
-     * @return ImageManager
-     */
-    public function getImageManager(): ImageManager
-    {
-        return $this->imageManager;
-    }
 
     /**
      * @param ImageManager $imageManager
      */
-    public function setImageManager(ImageManager $imageManager): void
+    private function setImageManager(ImageManager $imageManager): void
     {
         $this->imageManager = $imageManager;
     }
 
     /**
-     * @return string
-     */
-    public function getShape(): String
-    {
-        return $this->shape;
-    }
-
-    /**
      * @param string $shape
      */
-    public function setShape(string $shape): void
+    private function setShape(string $shape): void
     {
         $this->shape = $shape;
     }
 
-    /**
-     * @return int
-     */
-    public function getSize(): int
-    {
-        return $this->size;
-    }
 
     /**
      * @param int $size
      */
-    public function setSize(int $size): void
+    private function setSize(int $size): void
     {
         $this->size = $size;
     }
@@ -114,7 +98,7 @@ class LetterAvatar
     /**
      * @return \Intervention\Image\Image
      */
-    public function generate(): \Intervention\Image\Image
+    private function generate(): \Intervention\Image\Image
     {
         $isCircle = $this->shape === 'circle';
 
@@ -141,6 +125,10 @@ class LetterAvatar
         return $canvas->resize($this->size, $this->size);
     }
 
+    /**
+     * @param string $name
+     * @return string
+     */
     private function getInitials(string $name): string
     {
         $nameParts = $this->break_name($name);
@@ -150,20 +138,40 @@ class LetterAvatar
 
     }
 
+    /**
+     * @param string $word
+     * @return string
+     */
     private function getFirstLetter(string $word): string
     {
         return mb_strtoupper(trim(mb_substr($word, 0, 1, 'UTF-8')));
     }
 
+    /**
+     * Save the generated Letter-Avatar as a file
+     *
+     * @param        $path
+     * @param string $mimetype
+     * @param int    $quality
+     * @return bool
+     */
     public function saveAs($path, $mimetype = 'image/png', $quality = 90): bool
     {
-        if (empty($path) || empty($mimetype) || $mimetype != "image/png" && $mimetype != 'image/jpeg') {
+        $allowedMimeTypes = [
+            'image/png',
+            'image/jpeg'
+        ];
+
+        if (empty($path) || empty($mimetype) || \in_array($mimetype, $allowedMimeTypes, true)) {
             return false;
         }
 
         return \is_int(@file_put_contents($path, $this->generate()->encode($mimetype, $quality)));
     }
 
+    /**
+     * @return string
+     */
     public function __toString(): string
     {
         return (string)$this->generate()->encode('data-url');
@@ -185,7 +193,11 @@ class LetterAvatar
         return array_values($words);
     }
 
-    protected function stringToColor(string $string): string
+    /**
+     * @param string $string
+     * @return string
+     */
+    private function stringToColor(string $string): string
     {
         // random color
         $rgb = substr(dechex(crc32($string)), 0, 6);
