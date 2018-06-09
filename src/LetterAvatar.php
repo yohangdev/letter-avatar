@@ -2,6 +2,7 @@
 
 namespace YoHang88\LetterAvatar;
 
+use function foo\func;
 use Intervention\Image\ImageManager;
 
 class LetterAvatar
@@ -113,7 +114,7 @@ class LetterAvatar
      */
     public function generate(): \Intervention\Image\Image
     {
-        $words = $this->break_words($this->name);
+        $words = $this->break_name($this->name);
 
         $number_of_word = 1;
         $this->name_initials = '';
@@ -166,16 +167,20 @@ class LetterAvatar
         return (string)$this->generate()->encode('data-url');
     }
 
-    public function break_words(string $name): array
+    /**
+     * Explodes Name into an array.
+     * The function will check if a part is , or blank
+     *
+     * @param string $name Name to be broken up
+     * @return array Name broken up to an array
+     */
+    private function break_name(string $name): array
     {
-        $temp_word_arr = explode(' ', $name);
-        $final_word_arr = array();
-        foreach ($temp_word_arr as $key => $word) {
-            if ($word != "" && $word != ",") {
-                $final_word_arr[] = $word;
-            }
-        }
-        return $final_word_arr;
+        $words = \explode(' ', $name);
+        $words = array_filter($words, function($word) {
+            return $word!=='' && $word !== ',';
+        });
+        return $words;
     }
 
     protected function stringToColor(string $string): string
