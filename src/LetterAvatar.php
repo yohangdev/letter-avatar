@@ -11,12 +11,12 @@ class LetterAvatar
     /**
      * Image Type PNG
      */
-    public const MIME_TYPE_PNG = 'image/png';
+    const MIME_TYPE_PNG = 'image/png';
 
     /**
      * Image Type JPEG
      */
-    public const MIME_TYPE_JPEG = 'image/jpeg';
+    const MIME_TYPE_JPEG = 'image/jpeg';
 
     /**
      * @var string
@@ -63,7 +63,7 @@ class LetterAvatar
     /**
      * @param string $name
      */
-    private function setName(string $name): void
+    private function setName(string $name)
     {
         $this->name = $name;
     }
@@ -72,7 +72,7 @@ class LetterAvatar
     /**
      * @param ImageManager $imageManager
      */
-    private function setImageManager(ImageManager $imageManager): void
+    private function setImageManager(ImageManager $imageManager)
     {
         $this->imageManager = $imageManager;
     }
@@ -80,7 +80,7 @@ class LetterAvatar
     /**
      * @param string $shape
      */
-    private function setShape(string $shape): void
+    private function setShape(string $shape)
     {
         $this->shape = $shape;
     }
@@ -89,7 +89,7 @@ class LetterAvatar
     /**
      * @param int $size
      */
-    private function setSize(int $size): void
+    private function setSize(int $size)
     {
         $this->size = $size;
     }
@@ -208,7 +208,7 @@ class LetterAvatar
         $rgb = substr(dechex(crc32($string)), 0, 6);
         // make it darker
         $darker = 2;
-        [$R16, $G16, $B16] = str_split($rgb, 2);
+        list($R16, $G16, $B16) = str_split($rgb, 2);
         $R = sprintf('%02X', floor(hexdec($R16) / $darker));
         $G = sprintf('%02X', floor(hexdec($G16) / $darker));
         $B = sprintf('%02X', floor(hexdec($B16) / $darker));
