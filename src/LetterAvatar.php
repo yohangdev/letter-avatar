@@ -167,7 +167,7 @@ class LetterAvatar
             'image/jpeg'
         ];
 
-        if (empty($path) || empty($mimetype) || \in_array($mimetype, $allowedMimeTypes, true)) {
+        if (empty($path) || empty($mimetype) || !\in_array($mimetype, $allowedMimeTypes, true)) {
             return false;
         }
 
