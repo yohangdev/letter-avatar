@@ -32,7 +32,7 @@ $avatar = new LetterAvatar('Steven Spielberg', 'square', 64);
 
 // Save Image As PNG/JPEG
 $avatar->saveAs('path/to/filename');
-$avatar->saveAs('path/to/filename', "image/jpeg");
+$avatar->saveAs('path/to/filename', LetterAvatar::MIME_TYPE_JPEG);
 
 ```
 
