@@ -137,7 +137,7 @@ class LetterAvatar
             return '';
         }
 
-        $secondLetter = $nameParts[1] ? $this->getFirstLetter($nameParts[1]) : '';
+        $secondLetter = isset($nameParts[1]) ? $this->getFirstLetter($nameParts[1]) : '';
 
         return $this->getFirstLetter($nameParts[0]) . $secondLetter;
 
