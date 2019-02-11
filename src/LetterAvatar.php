@@ -49,7 +49,7 @@ class LetterAvatar
     /**
      * @var string
      */
-    private $backgroundColour;
+    private $backgroundColor;
 
     /**
      * @var string
@@ -73,12 +73,12 @@ class LetterAvatar
     /**
      * color in RGB format (example: #FFFFFF)
      * 
-     * @param $backgroundColour
+     * @param $backgroundColor
      * @param $foregroundColor
      */
-    public function setColor($backgroundColour, $foregroundColor)
+    public function setColor($backgroundColor, $foregroundColor)
     {
-        $this->backgroundColour = $backgroundColour;
+        $this->backgroundColor = $backgroundColor;
         $this->foregroundColor = $foregroundColor;
         return $this;
     }
@@ -126,7 +126,8 @@ class LetterAvatar
         $isCircle = $this->shape === 'circle';
 
         $this->nameInitials = $this->getInitials($this->name);
-        $this->backgroundColor = $this->backgroundColor ? $this->backgroundColor : $this->stringToColor($this->name);
+        $this->backgroundColor = $this->backgroundColor ?: $this->stringToColor($this->name);
+        $this->foregroundColor = $this->foregroundColor ?: '#fafafa';
 
         $canvas = $this->imageManager->canvas(480, 480, $isCircle ? null : $this->backgroundColor);
 
@@ -140,7 +141,7 @@ class LetterAvatar
         $canvas->text($this->nameInitials, 240, 240, function (Font $font) {
             $font->file(__DIR__ . '/fonts/arial-bold.ttf');
             $font->size(220);
-            $font->color($this->backgroundColor ? $this->foregroundColor : '#fafafa');
+            $font->color($this->foregroundColor);
             $font->valign('middle');
             $font->align('center');
         });
