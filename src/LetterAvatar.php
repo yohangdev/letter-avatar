@@ -47,6 +47,16 @@ class LetterAvatar
     private $imageManager;
 
     /**
+     * @var string
+     */
+    private $backgroundColour;
+
+    /**
+     * @var string
+     */
+    private $foregroundColor;
+
+    /**
      * LetterAvatar constructor.
      * @param string $name
      * @param string $shape
@@ -60,6 +70,16 @@ class LetterAvatar
         $this->setSize($size);
     }
 
+    /**
+     * @param $backgroundColour in RGB format (example: #FFFFFF)
+     * @param $foregroundColor in RGB format (example: #000000)
+     */
+    public function setColor($backgroundColour, $foregroundColor)
+    {
+        $this->backgroundColour = $backgroundColour;
+        $this->foregroundColor = $foregroundColor;
+    }
+    
     /**
      * @param string $name
      */
@@ -103,13 +123,13 @@ class LetterAvatar
         $isCircle = $this->shape === 'circle';
 
         $this->nameInitials = $this->getInitials($this->name);
-        $color = $this->stringToColor($this->name);
+        $this->backgroundColor = $this->backgroundColor ? $this->backgroundColor : $this->stringToColor($this->name);
 
-        $canvas = $this->imageManager->canvas(480, 480, $isCircle ? null : $color);
+        $canvas = $this->imageManager->canvas(480, 480, $isCircle ? null : $this->backgroundColor);
 
         if ($isCircle) {
-            $canvas->circle(480, 240, 240, function (CircleShape $draw) use ($color) {
-                $draw->background($color);
+            $canvas->circle(480, 240, 240, function (CircleShape $draw) {
+                $draw->background($this->backgroundColor);
             });
 
         }
@@ -117,7 +137,7 @@ class LetterAvatar
         $canvas->text($this->nameInitials, 240, 240, function (Font $font) {
             $font->file(__DIR__ . '/fonts/arial-bold.ttf');
             $font->size(220);
-            $font->color('#fafafa');
+            $font->color($this->backgroundColor ? $this->foregroundColor : '#fafafa');
             $font->valign('middle');
             $font->align('center');
         });
