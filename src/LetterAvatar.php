@@ -71,8 +71,10 @@ class LetterAvatar
     }
 
     /**
-     * @param $backgroundColour in RGB format (example: #FFFFFF)
-     * @param $foregroundColor in RGB format (example: #000000)
+     * color in RGB format (example: #FFFFFF)
+     * 
+     * @param $backgroundColour
+     * @param $foregroundColor
      */
     public function setColor($backgroundColour, $foregroundColor)
     {
