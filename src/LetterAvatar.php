@@ -78,6 +78,7 @@ class LetterAvatar
     {
         $this->backgroundColour = $backgroundColour;
         $this->foregroundColor = $foregroundColor;
+        return $this;
     }
     
     /**
