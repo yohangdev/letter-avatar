@@ -39,3 +39,9 @@ $avatar->saveAs('path/to/filename', LetterAvatar::MIME_TYPE_JPEG);
 ``` html
 <img src="<?php echo $avatar ?>" />
 ```
+
+To use static colour or custom colour use `->setColor($background, $foreground);`
+
+``` html
+<img src="<?php echo $avatar->setColor('#000000', '#ffffff');?>" alt="">
+```

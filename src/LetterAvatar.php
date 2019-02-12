@@ -47,6 +47,16 @@ class LetterAvatar
     private $imageManager;
 
     /**
+     * @var string
+     */
+    private $backgroundColor;
+
+    /**
+     * @var string
+     */
+    private $foregroundColor;
+
+    /**
      * LetterAvatar constructor.
      * @param string $name
      * @param string $shape
@@ -60,6 +70,19 @@ class LetterAvatar
         $this->setSize($size);
     }
 
+    /**
+     * color in RGB format (example: #FFFFFF)
+     * 
+     * @param $backgroundColor
+     * @param $foregroundColor
+     */
+    public function setColor($backgroundColor, $foregroundColor)
+    {
+        $this->backgroundColor = $backgroundColor;
+        $this->foregroundColor = $foregroundColor;
+        return $this;
+    }
+    
     /**
      * @param string $name
      */
@@ -103,13 +126,14 @@ class LetterAvatar
         $isCircle = $this->shape === 'circle';
 
         $this->nameInitials = $this->getInitials($this->name);
-        $color = $this->stringToColor($this->name);
+        $this->backgroundColor = $this->backgroundColor ?: $this->stringToColor($this->name);
+        $this->foregroundColor = $this->foregroundColor ?: '#fafafa';
 
-        $canvas = $this->imageManager->canvas(480, 480, $isCircle ? null : $color);
+        $canvas = $this->imageManager->canvas(480, 480, $isCircle ? null : $this->backgroundColor);
 
         if ($isCircle) {
-            $canvas->circle(480, 240, 240, function (CircleShape $draw) use ($color) {
-                $draw->background($color);
+            $canvas->circle(480, 240, 240, function (CircleShape $draw) {
+                $draw->background($this->backgroundColor);
             });
 
         }
@@ -117,7 +141,7 @@ class LetterAvatar
         $canvas->text($this->nameInitials, 240, 240, function (Font $font) {
             $font->file(__DIR__ . '/fonts/arial-bold.ttf');
             $font->size(220);
-            $font->color('#fafafa');
+            $font->color($this->foregroundColor);
             $font->valign('middle');
             $font->align('center');
         });
