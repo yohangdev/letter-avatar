@@ -177,6 +177,25 @@ class LetterAvatar
     }
 
     /**
+     * Get the generated Letter-Avatar as a png or jpg string
+     *
+     * @param string $mimetype
+     * @param int    $quality
+     * @return string
+     */
+    public function encode($mimetype = self::MIME_TYPE_PNG, $quality = 90): string
+    {
+        $allowedMimeTypes = [
+            self::MIME_TYPE_PNG,
+            self::MIME_TYPE_JPEG,
+        ];
+        if(!in_array($mimetype, $allowedMimeTypes, true)) {
+            throw new InvalidArgumentException('Invalid mimetype');
+        }
+        return $this->generate()->encode($mimetype, $quality);
+    }
+
+    /**
      * Save the generated Letter-Avatar as a file
      *
      * @param        $path
@@ -184,18 +203,13 @@ class LetterAvatar
      * @param int    $quality
      * @return bool
      */
-    public function saveAs($path, $mimetype = 'image/png', $quality = 90): bool
+    public function saveAs($path, $mimetype = self::MIME_TYPE_PNG, $quality = 90): bool
     {
-        $allowedMimeTypes = [
-            'image/png',
-            'image/jpeg'
-        ];
-
-        if (empty($path) || empty($mimetype) || !\in_array($mimetype, $allowedMimeTypes, true)) {
+        if (empty($path)) {
             return false;
         }
 
-        return \is_int(@file_put_contents($path, $this->generate()->encode($mimetype, $quality)));
+        return \is_int(@file_put_contents($path, $this->encode($mimetype, $quality)));
     }
 
     /**
