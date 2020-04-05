@@ -229,11 +229,26 @@ class LetterAvatar
      */
     private function break_name(string $name): array
     {
-        $words = \explode(' ', $name);
+        $words = $this->multiexplode(array(' ', '_'), $name);
         $words = array_filter($words, function($word) {
             return $word!=='' && $word !== ',';
         });
         return array_values($words);
+    }
+    
+    /**
+     * Explodes string into an array.
+     * The function will split the string based on delimiters
+     *
+     * @param array $delimiters Characters to split on
+     * @param string $string string to be broken up
+     * @return array String broken up to an array
+     */
+    private function multiexplode(array $delimiters, string $string): array
+    {
+        $ready = str_replace($delimiters, $delimiters[0], $string);
+        $launch = explode($delimiters[0], $ready);
+        return  $launch;
     }
 
     /**
