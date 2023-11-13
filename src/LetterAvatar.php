@@ -242,8 +242,9 @@ class LetterAvatar
      */
     private function stringToColor(string $string): string
     {
+        $crc = hash('crc32b', $string);
         // random color
-        $rgb = substr(dechex(crc32($string)), 0, 6);
+        $rgb = substr($crc, 0, 6);
         // make it darker
         $darker = 2;
         list($R16, $G16, $B16) = str_split($rgb, 2);
