@@ -86,7 +86,7 @@ class LetterAvatar
     /**
      * @param string $name
      */
-    private function setName(string $name)
+    public function setName(string $name)
     {
         $this->name = $name;
     }
@@ -103,7 +103,7 @@ class LetterAvatar
     /**
      * @param string $shape
      */
-    private function setShape(string $shape)
+    public function setShape(string $shape)
     {
         $this->shape = $shape;
     }
@@ -112,7 +112,7 @@ class LetterAvatar
     /**
      * @param int $size
      */
-    private function setSize(int $size)
+    public function setSize(int $size)
     {
         $this->size = $size;
     }
@@ -153,7 +153,7 @@ class LetterAvatar
      * @param string $name
      * @return string
      */
-    private function getInitials(string $name): string
+    public function getInitials(string $name): string
     {
         $nameParts = $this->break_name($name);
 
@@ -171,7 +171,7 @@ class LetterAvatar
      * @param string $word
      * @return string
      */
-    private function getFirstLetter(string $word): string
+    public function getFirstLetter(string $word): string
     {
         return mb_strtoupper(trim(mb_substr($word, 0, 1, 'UTF-8')));
     }
