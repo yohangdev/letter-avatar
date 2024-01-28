@@ -134,7 +134,7 @@ class LetterAvatar
 
         if ($isCircle) {
             $canvas->drawCircle(240, 240, function ($draw) {
-                $draw->radius(240);
+                $draw->diameter(480);
                 $draw->background($this->backgroundColor);
             });
 
@@ -213,7 +213,7 @@ class LetterAvatar
             return false;
         }
 
-        return \is_int(@file_put_contents($path, $this->encodeByMediaType($mimetype, $quality)));
+        return \is_int(@file_put_contents($path, $this->encode($mimetype, $quality)));
     }
 
     /**
