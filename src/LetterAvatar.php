@@ -2,6 +2,7 @@
 
 namespace YoHang88\LetterAvatar;
 
+use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Gd\Font;
 use Intervention\Image\Gd\Shapes\CircleShape;
 use Intervention\Image\ImageManager;
@@ -65,7 +66,7 @@ class LetterAvatar
     public function __construct(string $name, string $shape = 'circle', int $size = 48)
     {
         $this->setName($name);
-        $this->setImageManager(new ImageManager());
+        $this->setImageManager(new ImageManager(new Driver()));
         $this->setShape($shape);
         $this->setSize($size);
     }
@@ -129,17 +130,20 @@ class LetterAvatar
         $this->backgroundColor = $this->backgroundColor ?: $this->stringToColor($this->name);
         $this->foregroundColor = $this->foregroundColor ?: '#fafafa';
 
-        $canvas = $this->imageManager->canvas(480, 480, $isCircle ? null : $this->backgroundColor);
+        $canvas = $this->imageManager->create(480, 480);
 
         if ($isCircle) {
-            $canvas->circle(480, 240, 240, function (CircleShape $draw) {
+            $canvas->drawCircle(240, 240, function ($draw) {
+                $draw->diameter(480);
                 $draw->background($this->backgroundColor);
             });
 
+        } else {
+            $canvas->fill($this->backgroundColor);
         }
 
-        $canvas->text($this->nameInitials, 240, 240, function (Font $font) {
-            $font->file(__DIR__ . '/fonts/arial-bold.ttf');
+        $canvas->text($this->nameInitials, 240, 240, function ($font) {
+            $font->filename(__DIR__ . '/fonts/arial-bold.ttf');
             $font->size(220);
             $font->color($this->foregroundColor);
             $font->valign('middle');
@@ -192,7 +196,7 @@ class LetterAvatar
         if(!in_array($mimetype, $allowedMimeTypes, true)) {
             throw new InvalidArgumentException('Invalid mimetype');
         }
-        return $this->generate()->encode($mimetype, $quality);
+        return $this->generate()->encodeByMediaType($mimetype, $quality);
     }
 
     /**
@@ -217,7 +221,7 @@ class LetterAvatar
      */
     public function __toString(): string
     {
-        return (string)$this->generate()->encode('data-url');
+        return (string)$this->generate()->toPng()->toDataUri();
     }
 
     /**
